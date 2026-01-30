@@ -273,9 +273,6 @@
         output_type: 'text'
       };
 
-      if (source) payload.input_value.url = source;
-      if (image) payload.input_value.image = image;
-
       try {
         const response = await fetch('https://8daf014af101.ngrok-free.app/api/v1/run/fake-news-buster-v2', {
           method: 'POST',
