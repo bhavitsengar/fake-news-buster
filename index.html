@@ -209,8 +209,8 @@
     </div>
 
     <div class="form-group">
-      <label>Image URL</label>
-      <input id="image" type="url" placeholder="https://news-website.com/image.jpg" />
+      <label>Image (optional)</label>
+      <input id="image" type="file" accept="image/*" />
     </div>
 
     <button onclick="analyzeNews()">Analyze News</button>
@@ -233,7 +233,8 @@
     async function analyzeNews() {
       const headline = document.getElementById('headline').value.trim();
       const source = document.getElementById('source').value.trim();
-      const image = document.getElementById('image').value.trim();
+      const imageInput = document.getElementById('image');
+      const imageFile = imageInput.files[0] || null;
 
       const loader = document.getElementById('loader');
       const result = document.getElementById('result');
@@ -264,7 +265,10 @@
       };
 
       if (source) inputValueObj.url = source;
-      if (image) inputValueObj.image = image;
+      /*if (imageFile) {
+        const imageUrl = await uploadImageToOCI(imageFile);
+        inputValueObj.image = imageUrl;
+      }*/
 
       const payload = {
         input_value: JSON.stringify(inputValueObj),
@@ -274,7 +278,7 @@
       };
 
       try {
-        const response = await fetch('https://8daf014af101.ngrok-free.app/api/v1/run/fake-news-buster-v2', {
+        const response = await fetch('https://turdine-cuneately-adelaida.ngrok-free.dev/api/v1/run/fake-news-buster-v2', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -318,6 +322,18 @@
         rationaleEl.textContent = 'Failed to connect to the analysis service. Please try again.';
         console.error(err);
       }
+    }
+    async function uploadImageToOCI(imageFile) {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+
+      const response = await fetch("https://146.56.165.194:8001/upload-image", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      return data.image_url;
     }
   </script>
 </body>
