@@ -265,10 +265,10 @@
       };
 
       if (source) inputValueObj.url = source;
-      /*if (imageFile) {
+      if (imageFile) {
         const imageUrl = await uploadImageToOCI(imageFile);
         inputValueObj.image = imageUrl;
-      }*/
+      }
 
       const payload = {
         input_value: JSON.stringify(inputValueObj),
@@ -327,7 +327,7 @@
       const formData = new FormData();
       formData.append("file", imageFile);
 
-      const response = await fetch("https://146.56.165.194:8001/upload-image", {
+      const response = await fetch("http://146.56.165.194:8001/upload-image", {
         method: "POST",
         body: formData
       });
